@@ -528,7 +528,7 @@ class EggWars extends PluginBase{
         }
     }
 
-    public function yumurtaKirildimi($arena, $Team){
+    public function EggSkin($arena, $Team){
         if(empty($this->ky[$arena])){
             return false;
         }else{

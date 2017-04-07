@@ -33,7 +33,7 @@ class EventListener implements Listener{
     public function __construct(){
     }
 
-    public function sohbet(PlayerChatEvent $e){
+    public function Chat(PlayerChatEvent $e){
         $o = $e->getPlayer();
         $m = $e->getMessage();
         $main = EggWars::getInstance();
@@ -113,7 +113,7 @@ class EventListener implements Listener{
         }
     }
 
-    public function generatorYükselt(PlayerInteractEvent $e){
+    public function UpgradeGenerator(PlayerInteractEvent $e){
         $o = $e->getPlayer();
         $b = $e->getBlock();
         $sign = $o->getLevel()->getTile($b);
@@ -216,7 +216,7 @@ class EventListener implements Listener{
         }
     }
 
-    public function yumurtaKir(PlayerInteractEvent $e){
+    public function Egg(PlayerInteractEvent $e){
         $o = $e->getPlayer();
         $b = $e->getBlock();
         $main = EggWars::getInstance();
@@ -255,7 +255,7 @@ class EventListener implements Listener{
                             $e->setLine(0, $main->tyazi);
                             $e->setLine(1, "§f0/0");
                             $e->setLine(2, "§e$arena");
-                            $e->setLine(3, "§l§bYukleniyor");
+                            $e->setLine(3, "§l§bTap to Join");
                             for($i=0; $i<=3; $i++){
                                 $o->sendMessage("§8» §a$i".$e->getLine($i));
                             }
@@ -380,7 +380,7 @@ class EventListener implements Listener{
                     if($e->getDamage() >= $e->getEntity()->getHealth()){
                         $e->setCancelled();
                         $o->setHealth(20);
-                        if($main->yumurtaKirildimi($arena, $Team)){
+                        if($main->EggSkin($arena, $Team)){
                             $main->RemoveArenaPlayer($arena, $o->getName());
                         }else{
                             $o->teleport(new Position($ac->getNested("$Team.X"), $ac->getNested("$Team.Y"), $ac->getNested("$Team.Z"), $main->getServer()->getLevelByName($ac->get("World"))));
@@ -416,7 +416,7 @@ class EventListener implements Listener{
                     if($e->getDamage() >= $e->getEntity()->getHealth()){
                         $e->setCancelled();
                         $o->setHealth(20);
-                        if($main->yumurtaKirildimi($arena, $Team)){
+                        if($main->EggSkin($arena, $Team)){
                             $main->RemoveArenaPlayer($arena, $o->getName());
                         }else{
                             $o->teleport(new Position($ac->getNested("$Team.X"), $ac->getNested("$Team.Y"), $ac->getNested("$Team.Z"), $main->getServer()->getLevelByName($ac->get("World"))));
