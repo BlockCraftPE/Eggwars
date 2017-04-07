@@ -1,0 +1,9 @@
+name: EggWars
+version: 1.0
+main: Driesboy\EggWars\EggWars
+api: [3.0.0-ALPHA4, 3.0.0, 3.0.1]
+author: Driesboy
+
+permissions:
+  eggwars.command:
+    default: op
