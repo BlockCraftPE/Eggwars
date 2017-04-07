@@ -300,7 +300,7 @@ class EventListener implements Listener{
                             }
                             break;
                         case "Diamond":
-                            if($e->getLine(2) != "broken") {
+                            if($e->getLine(2) != "Broken") {
                                 $e->setLine(0, "§bDiamond");
                                 $e->setLine(1, "§eLevel 1");
                                 $e->setLine(2, "§b10 seconds");
@@ -424,10 +424,6 @@ class EventListener implements Listener{
                         }
                         $o->getInventory()->clearAll();
                     }
-                }else{
-                    $e->setCancelled();
-                    $o->setHealth(20);
-                    $o->teleport($o->getServer()->getDefaultLevel()->getSafeSpawn());
                 }
             }
         }
