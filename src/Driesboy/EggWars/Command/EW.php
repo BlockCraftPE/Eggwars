@@ -95,7 +95,7 @@ class EW extends Command{
                         $g->sendMessage("§8» §c/ew save ".'<arena>');
                     }
                 }elseif($args[0] == "shop"){
-                    $this->($g->x, $g->y, $g->z, $g->yaw, $g->pitch, $g->getLevel(), 1);
+                    $this->CreateShop($g->x, $g->y, $g->z, $g->yaw, $g->pitch, $g->getLevel(), 1);
                 }elseif($args[0] == "start"){
                     if($main->IsInArena($g->getName())){
                         $arena = $main->IsInArena($g->getName());
@@ -117,7 +117,7 @@ class EW extends Command{
         }
     }
 
-    public function ($x, $y, $z, $yaw, $pitch, Level $World, $pro){
+    public function CreateShop($x, $y, $z, $yaw, $pitch, Level $World, $pro){
         $nbt = new CompoundTag;
         $nbt->Pos = new ListTag("Pos", [
             new DoubleTag("", $x),
