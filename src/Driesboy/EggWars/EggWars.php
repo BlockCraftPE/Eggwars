@@ -57,7 +57,7 @@ class EggWars extends PluginBase{
 
         $shop = new Config($this->getDataFolder()."shop.yml", Config::YAML);
         // 264 => Dia 265 => İron 266 => Altin
-        if ($shop->get("shop") == null) {
+        if ($shop->get("shop") === null) {
             $shop->set("shop", array(
                     Item::BRICKS_BLOCK,
                     array(
@@ -387,7 +387,7 @@ class EggWars extends PluginBase{
         if($this->ArenaControl($arena)){
             $ac = new Config($this->getDataFolder() . "Arenas/$arena.yml", Config::YAML);
             if(!empty($this->Teams()[$Team])){
-                if(count($this->ArenaTeams($arena)) == $ac->get("Team")){
+                if(count($this->ArenaTeams($arena)) === $ac->get("Team")){
                     if($ac->getNested("$Team.X")){
                         $ac->setNested("$Team.X", $o->getFloorX());
                         $ac->setNested("$Team.Y", $o->getFloorY());
@@ -446,7 +446,7 @@ class EggWars extends PluginBase{
         $items = 0;
         for($i=0; $i<36; $i++){
             $item = $o->getInventory()->getItem($i);
-            if($item->getId() == $id){
+            if($item->getId() === $id){
                 $items += $item->getCount();
             }
         }
@@ -568,7 +568,7 @@ class EggWars extends PluginBase{
                 }
             }
         }
-        if(count($Teams) == 1){
+        if(count($Teams) === 1){
             return true;
         }else{
             return false;

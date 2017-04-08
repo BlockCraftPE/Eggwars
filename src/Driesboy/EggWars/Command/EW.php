@@ -27,14 +27,14 @@ class EW extends Command{
         $main = EggWars::getInstance();
         if($g->hasPermission("eggwars.command") && $g instanceof Player){
             if(!empty($args[0])){
-                if($args[0] == "help"){
+                if($args[0] === "help"){
                     $g->sendMessage("§6----- §fEggwars Help Page §6-----");
                     $g->sendMessage("§8» §e/ew create".' <arena> <teams> <PlayersPerTeam> '."§6Create an Arena!");
                     $g->sendMessage("§8» §e/ew set".' <arena> <team> '."§6Set the TeamSpawn!");
                     $g->sendMessage("§8» §e/ew lobby".' <arena> '."§6Set the WaitingLobby!");
                     $g->sendMessage("§8» §e/ew save".' <arena> '."§6Save the map!");
                     $g->sendMessage("§8» §e/ew shop "."§6Spawn a Villager");
-                }elseif ($args[0] == "create"){
+                }elseif ($args[0] === "create"){
                     if(!empty($args[1])){
                         if(!empty($args[2]) && is_numeric($args[2])){
                             if(!empty($args[3]) && is_numeric($args[3])){
@@ -48,7 +48,7 @@ class EW extends Command{
                     }else{
                         $g->sendMessage("§8» §c/ew create ".'<arena> <team> <PlayersPerTeam>');
                     }
-                }elseif ($args[0] == "set"){
+                }elseif ($args[0] === "set"){
                     if(!empty($args[1])){
                         if(!empty($args[2])){
                             $main->ArenaSet($args[1], $args[2], $g);
@@ -58,7 +58,7 @@ class EW extends Command{
                     }else{
                         $g->sendMessage("§8» §c/ew set ".'<arena> <team>');
                     }
-                }elseif ($args[0] == "lobby"){
+                }elseif ($args[0] === "lobby"){
                     if(!empty($args[1])){
                         if($main->ArenaControl($args[1])){
                             $ac = new Config($main->getDataFolder()."Arenas/$args[1].yml", Config::YAML);
@@ -76,7 +76,7 @@ class EW extends Command{
                     }else{
                         $g->sendMessage("§8» §c/ew Lobby ".'<arena>');
                     }
-                }elseif($args[0] == "save"){
+                }elseif($args[0] === "save"){
                     if(!empty($args[1])){
                         if($main->ArenaControl($args[1])) {
                             if ($g->getLevel() != Server::getInstance()->getDefaultLevel()) {
@@ -94,13 +94,13 @@ class EW extends Command{
                     }else{
                         $g->sendMessage("§8» §c/ew save ".'<arena>');
                     }
-                }elseif($args[0] == "shop"){
+                }elseif($args[0] === "shop"){
                     $this->CreateShop($g->x, $g->y, $g->z, $g->yaw, $g->pitch, $g->getLevel(), 1);
-                }elseif($args[0] == "start"){
+                }elseif($args[0] === "start"){
                     if($main->IsInArena($g->getName())){
                         $arena = $main->IsInArena($g->getName());
                         $ac = new Config($main->getDataFolder()."Arenas/$arena.yml", Config::YAML);
-                        if($ac->get("Status") == "Lobby"){
+                        if($ac->get("Status") === "Lobby"){
                             $ac->set("StartTime", 6);
                             $ac->save();
                             $g->sendMessage($main->b."§bStplusng the game ...");

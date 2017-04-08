@@ -44,7 +44,7 @@ class EventListener implements Listener{
             $Team = $main->PlayerTeamColor($o);
             $arena = $main->IsInArena($o->getName());
             $ac = new Config($main->getDataFolder()."Arenas/$arena.yml", Config::YAML);
-            if($ac->get("Status") == "Lobby"){
+            if($ac->get("Status") === "Lobby"){
                 $Players = $main->ArenaPlayer($arena);
 			         foreach($Players as $Is){
 			             $to = $main->getServer()->getPlayer($Is);
@@ -56,7 +56,7 @@ class EventListener implements Listener{
             if(!empty($main->Teams()[$Team])){
                 $color = $main->Teams()[$Team];
             }
-			     if($is == "!"){
+			     if($is === "!"){
 			         $msil = substr($m, 1);
 			         $main->ArenaMessage($arena, "§8[§c!§8] ".$color.$o->getName()." §8» §7$msil");
 			     }else{
@@ -65,7 +65,7 @@ class EventListener implements Listener{
 			             $to = $main->getServer()->getPlayer($Is);
 			             if($to instanceof Player){
 			                 $toTeam = $main->PlayerTeamColor($to);
-			                 if($Team == $toTeam){
+			                 if($Team === $toTeam){
 			                     $message = "§8[".$color."team§8] ".$color.$o->getName()." §8» §7$m";
 			                     $to->sendMessage($message);
 			                 }
@@ -83,10 +83,10 @@ class EventListener implements Listener{
         $main = EggWars::getInstance();
         if($t instanceof Sign){
             $yazilar = $t->getText();
-            if($yazilar[0] == $main->tyazi){
+            if($yazilar[0] === $main->tyazi){
                 $arena = str_ireplace("§e", "", $yazilar[2]);
                 $Status = $main->ArenaStatus($arena);
-                if($Status == "Lobby"){
+                if($Status === "Lobby"){
                     if(!$main->IsInArena($o->getName())){
                         $ac = new Config($main->getDataFolder()."Arenas/$arena.yml", Config::YAML);
                         $Players = count($main->ArenaPlayer($arena));
@@ -103,9 +103,9 @@ class EventListener implements Listener{
                     }else{
                         $o->sendPopup("§cYou're already in a game!");
                     }
-                }elseif ($Status == "In-Game"){
+                }elseif ($Status === "In-Game"){
                     $o->sendPopup("§8» §dThe game is still going on!");
-                }elseif ($Status == "Done"){
+                }elseif ($Status === "Done"){
                     $o->sendPopup("§8» §eResetting the Arena ...");
                 }
                 $e->setCancelled();
@@ -120,7 +120,7 @@ class EventListener implements Listener{
         $main = EggWars::getInstance();
         if($sign instanceof Sign){
             $y = $sign->getText();
-            if($y[0] == "§fIron" || $y[0] == "§6Gold" || $y[0] == "§bDiamond"){
+            if($y[0] === "§fIron" || $y[0] === "§6Gold" || $y[0] === "§bDiamond"){
                 $tip = $y[0];
                 $level = str_ireplace("§eLevel ", "", $y[1]);
                 switch($level){
@@ -221,13 +221,13 @@ class EventListener implements Listener{
         $b = $e->getBlock();
         $main = EggWars::getInstance();
         if($main->IsInArena($o->getName())){
-            if($b->getId() == 122){
+            if($b->getId() === 122){
                 $yun = $b->getLevel()->getBlock(new Vector3($b->x, $b->y - 1, $b->z));
-                if($yun->getId() == 35){
+                if($yun->getId() === 35){
                     $color = $yun->getDamage();
                     $Team = array_search($color, $main->TeamSearcher());
                     $oht = $main->PlayerTeamColor($o);
-                    if($oht == $Team){
+                    if($oht === $Team){
                         $o->sendPopup("§8»§c You can not break your own egg!");
                         $e->setCancelled();
                     }else{
@@ -247,7 +247,7 @@ class EventListener implements Listener{
         $o = $e->getPlayer();
         $main = EggWars::getInstance();
         if($o->isOp()){
-            if($e->getLine(0) == "eggwars"){
+            if($e->getLine(0) === "eggwars"){
                 if(!empty($e->getLine(1))){
                     if($main->ArenaControl($e->getLine(1))){
                         if($main->ArenaReady($e->getLine(1))){
@@ -277,7 +277,7 @@ class EventListener implements Listener{
                     $e->setLine(2, "§7Section");
                     $e->setLine(3, "§7null!");
                 }
-            }elseif ($e->getLine(0) == "generator"){
+            }elseif ($e->getLine(0) === "generator"){
                 if(!empty($e->getLine(1))){
                     switch ($e->getLine(1)){
                         case "Iron":
@@ -355,7 +355,7 @@ class EventListener implements Listener{
         if($e instanceof EntityDamageByEntityEvent){
             $d = $e->getDamager();
             if($o instanceof Villager && $d instanceof Player){
-                if($o->getNameTag() == "§6EggWars §fShop"){
+                if($o->getNameTag() === "§6EggWars §fShop"){
                     $e->setCancelled();
                     $main->m[$d->getName()] = "ok";
                     $main->EmptyShop($d);
@@ -366,12 +366,12 @@ class EventListener implements Listener{
                     $arena = $main->IsInArena($o->getName());
                     $ac = new Config($main->getDataFolder()."Arenas/$arena.yml", Config::YAML);
                     $Team = $main->PlayerTeamColor($o);
-                    if($ac->get("Status") == "Lobby"){
+                    if($ac->get("Status") === "Lobby"){
                         $e->setCancelled();
                     }else{
                         $td = substr($d->getNameTag(), 0, 3);
                         $to = substr($o->getNameTag(), 0, 3);
-                        if($td == $to){
+                        if($td === $to){
                             $e->setCancelled();
                         }else{
                             $this->sd[$o->getName()] = $d->getName();
@@ -397,7 +397,7 @@ class EventListener implements Listener{
                 if($main->IsInArena($o->getName())){
                     $arena = $main->IsInArena($o->getName());
                     $ac = new Config($main->getDataFolder()."Arenas/$arena.yml", Config::YAML);
-                    if($ac->get("Status") == "Lobby"){
+                    if($ac->get("Status") === "Lobby"){
                         $e->setCancelled();
                     }
                     $Team = $main->PlayerTeamColor($o);
@@ -432,13 +432,13 @@ class EventListener implements Listener{
     /*public function hareket(PlayerMoveEvent $e){
         $o = $e->getPlayer();
         $main = EggWars::getInstance();
-        if($o->getLevel() == $o->getServer()->getDefaultLevel()) {
+        if($o->getLevel() === $o->getServer()->getDefaultLevel()) {
             $tile = Server::getInstance()->getDefaultLevel()->getTiles();
             foreach ($tile as $sign) {
                 if ($sign instanceof Sign) {
                     $yazi = $sign->getText();
                     $b = $sign->getBlock();
-                    if ($yazi[0] == $main->tyazi) {
+                    if ($yazi[0] === $main->tyazi) {
                         foreach ($o->getLevel()->getNearbyEntities(new AxisAlignedBB($b->x - 0.5, $b->y - 1, $b->z - 0.5, $b->x+0.5, $b->y + 1, $b->z+0.5)) as $Player) {
                             if ($Player instanceof Player) {
                                 $Player->knockBack($o, 0, -1, -1, 0.2);
@@ -500,25 +500,25 @@ class EventListener implements Listener{
                         $mis = 0;
                         $main->getLogger()->info("§c".$o->getName());
                         for ($i = 0; $i < count($shop); $i += 2) {
-                            if ($item->getId() == $shop[$i]) {
+                            if ($item->getId() === $shop[$i]) {
                                 $mis++;
                             }
                         }
-                        if($mis == count($shop)){
+                        if($mis === count($shop)){
                             $main->m[$o->getName()] = 1;
                         }
                     }
                     if(empty($main->m[$o->getName()])) {
                         $main->getLogger()->info("§b".$o->getName());
                         $is = $senv->getItem(1)->getId();
-                        if ($is == 264 || $is == 265 || $is == 266) {
+                        if ($is === 264 || $is === 265 || $is === 266) {
                             $main->m[$o->getName()] = 1;
                         }
                     }
 
                     if(!empty($main->m[$o->getName()])){
                         $main->getLogger()->info("Deneme 1 => ".$o->getName());
-                        if($item->getId() == Item::WOOL && $item->getDamage() == 14){
+                        if($item->getId() === Item::WOOL && $item->getDamage() === 14){
                             $e->setCancelled(true);
                             $shopc = new Config($main->getDataFolder() . "shop.yml", Config::YAML);
                             $shop = $shopc->get("shop");
@@ -530,20 +530,20 @@ class EventListener implements Listener{
                         }
                         $transferSlot = 0;
                         for ($i=0; $i<$senv->getSize(); $i++) {
-                            if ($senv->getItem($i)->getId() == $item->getId()) {
+                            if ($senv->getItem($i)->getId() === $item->getId()) {
                                 $transferSlot = $i;
                                 break;
                             }
                         }
                         $main->getLogger()->info("Deneme 2 => ".$transferSlot);
                         $is = $senv->getItem(1)->getId();
-                        if ($transferSlot % 2 != 0 && ($is == 264 || $is == 265 || $is == 266)) {
+                        if ($transferSlot % 2 != 0 && ($is === 264 || $is === 265 || $is === 266)) {
                             $e->setCancelled(true);
                         }
-                        if ($item->getId() == 264 || $item->getId() == 265 || $item->getId() == 266) {
+                        if ($item->getId() === 264 || $item->getId() === 265 || $item->getId() === 266) {
                             $e->setCancelled(true);
                         }
-                        if ($transferSlot % 2 == 0 && ($is == 264 || $is == 265 || $is == 266)) {
+                        if ($transferSlot % 2 === 0 && ($is === 264 || $is === 265 || $is === 266)) {
                             $ucret = $senv->getItem($transferSlot + 1)->getCount();
 
                             $paran = $main->ItemId($o, $senv->getItem($transferSlot + 1)->getId());
@@ -559,7 +559,7 @@ class EventListener implements Listener{
                             $shopc = new Config($main->getDataFolder() . "shop.yml", Config::YAML);
                             $shop = $shopc->get("shop");
                             for ($i = 0; $i < count($shop); $i += 2) {
-                                if ($item->getId() == $shop[$i]) {
+                                if ($item->getId() === $shop[$i]) {
                                     $sandik->getInventory()->clearAll();
                                     $suball = $shop[$i + 1];
                                     $slot = 0;
@@ -616,16 +616,16 @@ class EventListener implements Listener{
                     $itemler = 0;
                     for($i=0; $i<count($shop); $i += 2){
                         $slot = $i / 2;
-                        if($item->getId() == $shop[$i]){
+                        if($item->getId() === $shop[$i]){
                             $itemler++;
                         }
                     }
-                    if($itemler == count($shop)){
+                    if($itemler === count($shop)){
                         $main->m[$o->getName()] = 1;
                     }
                 }else{
                     $e->setCancelled();
-                    if($item->getId() == 35 && $item->getDamage() == 14){
+                    if($item->getId() === 35 && $item->getDamage() === 14){
                         $e->setCancelled();
                         $shopc->reload();
                         $shop = $shopc->get("shop");
@@ -637,19 +637,19 @@ class EventListener implements Listener{
                     }
                     $transSlot = 0;
                     for($i=0; $i<$si->getSize(); $i++){
-                        if($si->getItem($i)->getId() == $item->getId()){
+                        if($si->getItem($i)->getId() === $item->getId()){
                             $transSlot = $i;
                             break;
                         }
                     }
                     $is = $si->getItem(1)->getId();
-                    if($transSlot % 2 != 0 && ($is == 264 or $is == 265 or $is == 266)){
+                    if($transSlot % 2 != 0 && ($is === 264 or $is === 265 or $is === 266)){
                         $e->setCancelled();
                     }
-                    if($item->getId() == 264 or $item->getId() == 265 or $item->getId() == 266){
+                    if($item->getId() === 264 or $item->getId() === 265 or $item->getId() === 266){
                         $e->setCancelled();
                     }
-                    if($transSlot % 2 == 0 && ($is == 264 or $is == 265 or $is == 266)){
+                    if($transSlot % 2 === 0 && ($is === 264 or $is === 265 or $is === 266)){
                         $ucret = $si->getItem($transSlot + 1)->getCount();
                         $para = $main->ItemId($o, $si->getItem($transSlot + 1)->getId());
                         if($para >= $ucret){
@@ -665,7 +665,7 @@ class EventListener implements Listener{
                         $shopc->reload();
                         $shop = $shopc->get("shop");
                         for($i=0; $i<count($shop); $i+=2){
-                            if($item->getId() == $shop[$i]){
+                            if($item->getId() === $shop[$i]){
                                 $sandik->getInventory()->clearAll();
                                 $gyer = $shop[$i+1];
                                 $slot = 0;
@@ -693,7 +693,7 @@ class EventListener implements Listener{
         if($main->IsInArena($o->getName())){
             $cfg = new Config($main->getDataFolder()."config.yml", Config::YAML);
             $ad = $main->ArenaStatus($main->IsInArena($o->getName()));
-            if($ad == "Lobby"){
+            if($ad === "Lobby"){
                 $e->setCancelled(true);
                 return;
             }
@@ -720,8 +720,8 @@ class EventListener implements Listener{
         $cfg = new Config($main->getDataFolder()."config.yml", Config::YAML);
         if($main->IsInArena($o->getName())){
             $ad = $main->ArenaStatus($main->IsInArena($o->getName()));
-            if($ad == "Lobby"){
-                if($b->getId() == 35){
+            if($ad === "Lobby"){
+                if($b->getId() === 35){
                     $arena = $main->IsInArena($o->getName());
                     $tyun = array_search($b->getDamage() ,$main->TeamSearcher());
                     $marena = $main->AvailableTeams($arena);

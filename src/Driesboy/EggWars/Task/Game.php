@@ -26,7 +26,7 @@ class Game extends PluginTask{
             if($main->ArenaReady($arena)){
                 $ac = new Config($main->getDataFolder()."Arenas/$arena.yml", Config::YAML);
                 $Status = $ac->get("Status");
-                if($Status == "Lobby"){
+                if($Status === "Lobby"){
                     $Time = (int) $ac->get("StartTime");
                     if($Time > 0 || $Time <= 0){
                         if(count($main->ArenaPlayer($arena)) >= $ac->get("Team")){
@@ -74,26 +74,26 @@ class Game extends PluginTask{
                             }
                         }
                     }
-                }elseif($Status == "In-Game"){
+                }elseif($Status === "In-Game"){
                     $level = Server::getInstance()->getLevelByName($ac->get("World"));
                     $tile = $level->getTiles();
                     foreach ($tile as $sign){
                         if($sign instanceof Sign){
                             $y = $sign->getText();
-                            if($y[0] == "§fIron" || $y[0] == "§6Gold" || $y[0] == "§bDiamond"){
+                            if($y[0] === "§fIron" || $y[0] === "§6Gold" || $y[0] === "§bDiamond"){
                                 $evet = false;
                                 foreach($level->getNearbyEntities(new AxisAlignedBB($sign->x - 10, $sign->y - 10, $sign->z - 10, $sign->x + 10, $sign->y + 10, $sign->z + 10)) as $ent){
                                     if($ent instanceof Player){
                                         $evet = true;
                                     }
                                 }
-                                if($evet == true){
+                                if($evet === true){
                                     $im = explode(" ", $y[2]);
                                     $second = str_ireplace("§b", "", $im[0]);
                                     $tur = $y[0];
                                     if($second != "Broken"){
                                         $item = $this->turDonusItem($tur);
-                                        if(time() % $second == 0){
+                                        if(time() % $second === 0){
                                             $level->dropItem(new Vector3($sign->x, $sign->y, $sign->z), $item);
                                         }
                                     }
@@ -122,7 +122,7 @@ class Game extends PluginTask{
                         }
                         Server::getInstance()->broadcastMessage($main->b."§b$Team §9won the game on §b$arena!");
                     }
-                }elseif($Status == "Done"){
+                }elseif($Status === "Done"){
                     $bitis = (int) $ac->get("EndTime");
                     if($bitis > 0 || $bitis <= 0){
                         $bitis--;

@@ -21,7 +21,7 @@ class Hub extends Command{
             $arena = $main->IsInArena($g->getName());
             $ac = new Config($main->getDataFolder()."Arenas/$arena.yml", Config::YAML);
             $durum = $ac->get("Status");
-            if($durum == "Lobby"){
+            if($durum === "Lobby"){
                 $main->RemoveArenaPlayer($arena, $g->getName());
                 $g->teleport(Server::getInstance()->getDefaultLevel()->getSafeSpawn());
                 $g->sendMessage("§8» §aYou are teleported to the lobby");
