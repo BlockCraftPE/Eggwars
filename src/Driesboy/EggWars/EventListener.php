@@ -295,8 +295,8 @@ class EventListener implements Listener{
                             }else{
                                 $e->setLine(0, "§6Gold");
                                 $e->setLine(1, "§eLevel 0");
-                                $e->setLine(2, "§c-------");
-                                $e->setLine(3, "§a§lBroken");
+                                $e->setLine(2, "§bBroken");
+                                $e->setLine(3, "§a§l-------");
                             }
                             break;
                         case "Diamond":
@@ -308,8 +308,8 @@ class EventListener implements Listener{
                             }else{
                                 $e->setLine(0, "§bDiamond");
                                 $e->setLine(1, "§eLevel 0");
-                                $e->setLine(2, "§c-------");
-                                $e->setLine(3, "§a§lBroken");
+                                $e->setLine(2, "§bBroken");
+                                $e->setLine(3, "§a§l-------");
                             }
                             break;
                     }
