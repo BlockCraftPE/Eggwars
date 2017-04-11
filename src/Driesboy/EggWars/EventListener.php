@@ -234,7 +234,6 @@ class EventListener implements Listener{
                         $main->CreateLightning($b->x, $b->y, $b->z, $o->getLevel());
                         $arena = $main->IsInArena($o->getName());
                         $main->ky[$arena][] = $Team;
-                        $o->sendMessage("§cYour egg has been destroyed!");
                         $main->ArenaMessage($main->IsInArena($o->getName()), "§eTeam " .$main->Teams()[$Team]."$Team's".$main->Teams()[$oht]." §eegg has been destroyed by " .$o->getNameTag());
                     }
                 }
