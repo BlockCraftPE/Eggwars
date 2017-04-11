@@ -76,7 +76,7 @@ class EventListener implements Listener{
         }
     }
 
-    public function KillerGame(PlayerInteractEvent $e){
+    public function OnInteract(PlayerInteractEvent $e){
         $o = $e->getPlayer();
         $b = $e->getBlock();
         $t = $o->getLevel()->getTile($b);
@@ -97,9 +97,8 @@ class EventListener implements Listener{
                         }
                         $main->AddArenaPlayer($arena, $o->getName());
                         $o->teleport(new Position($ac->getNested("Lobby.X"), $ac->getNested("Lobby.Y"), $ac->getNested("Lobby.Z"), $main->getServer()->getLevelByName($ac->getNested("Lobby.World"))));
-                        $o->sendPopup("§aSuccessfully joined the game!");
                         $main->TeamSellector($arena, $o);
-                        $main->ArenaMessage($arena, $main->b."§e".$o->getName()." §bjoined the game.");
+                        $main->ArenaMessage($arena, "§5".$o->getName()." §5joined the game. ". count($main->ArenaPlayer($arena)) . "/" .$ac->get("Team") * $ac->get("PlayersPerTeam"));
                     }else{
                         $o->sendPopup("§cYou're already in a game!");
                     }
@@ -216,7 +215,7 @@ class EventListener implements Listener{
         }
     }
 
-    public function Egg(PlayerInteractEvent $e){
+    public function DestroyEgg(PlayerInteractEvent $e){
         $o = $e->getPlayer();
         $b = $e->getBlock();
         $main = EggWars::getInstance();
@@ -235,8 +234,8 @@ class EventListener implements Listener{
                         $main->CreateLightning($b->x, $b->y, $b->z, $o->getLevel());
                         $arena = $main->IsInArena($o->getName());
                         $main->ky[$arena][] = $Team;
-                        $o->sendPopup("§8» ".$main->Teams()[$Team]." $Team broke your team's egg!");
-                        $main->ArenaMessage($main->IsInArena($o->getName()), "§8» ".$o->getNameTag()." Player ".$main->Teams()[$Team]."$Team ".$main->Teams()[$oht]."Broke the team's egg!");
+                        $o->sendMessage("§cYour egg has been destroyed!");
+                        $main->ArenaMessage($main->IsInArena($o->getName()), "§eTeam " .$main->Teams()[$Team]."$Team's".$main->Teams()[$oht]." §eegg has been destroyed by " .$o->getNameTag());
                     }
                 }
             }
@@ -323,7 +322,7 @@ class EventListener implements Listener{
         }
     }
 
-    public function dying(PlayerDeathEvent $e){
+    public function onDeath(PlayerDeathEvent $e){
         $o = $e->getPlayer();
         $main = EggWars::getInstance();
         if($main->IsInArena($o->getName())){
@@ -333,17 +332,17 @@ class EventListener implements Listener{
                 $e->setDrops(array());
                 $olduren = $sondarbe->getDamager();
                 if($olduren instanceof Player){
-                    $main->ArenaMessage($main->IsInArena($o->getName()), "§8» ".$o->getNameTag()." was killed by ".$olduren->getNameTag());
+                    $main->ArenaMessage($main->IsInArena($o->getName()), $o->getNameTag()." §ewas killed by ".$olduren->getNameTag());
                 }
             }else{
                 $e->setDrops(array());
                 if(!empty($this->sd[$o->getName()])){
                     $olduren = $main->getServer()->getPlayer($this->sd[$o->getName()]);
                     if($olduren instanceof Player){
-                        $main->ArenaMessage($main->IsInArena($o->getName()), "§8» ".$o->getNameTag()." was killed by ".$olduren->getNameTag());
+                        $main->ArenaMessage($main->IsInArena($o->getName()), $o->getNameTag()." §ewas killed by ".$olduren->getNameTag());
                     }
                 }else{
-                    $main->ArenaMessage($main->IsInArena($o->getName()), "§8» ".$o->getNameTag()." drowned!");
+                    $main->ArenaMessage($main->IsInArena($o->getName()), $o->getNameTag()." §edied!");
                 }
             }
         }
@@ -355,7 +354,7 @@ class EventListener implements Listener{
         if($e instanceof EntityDamageByEntityEvent){
             $d = $e->getDamager();
             if($o instanceof Villager && $d instanceof Player){
-                if($o->getNameTag() === "§6EggWars §fShop"){
+                if($o->getNameTag() === "§6EggWars Shop"){
                     $e->setCancelled();
                     $main->m[$d->getName()] = "ok";
                     $main->EmptyShop($d);
@@ -384,7 +383,7 @@ class EventListener implements Listener{
                             $main->RemoveArenaPlayer($arena, $o->getName());
                         }else{
                             $o->teleport(new Position($ac->getNested("$Team.X"), $ac->getNested("$Team.Y"), $ac->getNested("$Team.Z"), $main->getServer()->getLevelByName($ac->get("World"))));
-                            $main->ArenaMessage($arena, "§8» ".$o->getNameTag()." was killed by ".$d->getNameTag());
+                            $main->ArenaMessage($arena, $o->getNameTag()." §ewas killed by ".$d->getNameTag());
                         }
                         $o->getInventory()->clearAll();
                     }
@@ -406,18 +405,21 @@ class EventListener implements Listener{
                         $sd = $main->getServer()->getPlayer($this->sd[$o->getName()]);
                         if($sd instanceof Player){
                             unset($this->sd[$o->getName()]);
-                            $message = "§8» ".$o->getNameTag()." was killed by ".$sd->getNameTag();
+                            $message = $o->getNameTag()." §ewas killed by ".$sd->getNameTag();
                         }else{
-                            $message = "§8» ".$o->getNameTag()." drowned!";
+                            $message = $o->getNameTag()." §edied!";
                         }
                     }else{
-                        $message = "§8» ".$o->getNameTag()." drowned!";
+                        $message = $o->getNameTag()." §edied!";
                     }
                     if($e->getDamage() >= $e->getEntity()->getHealth()){
                         $e->setCancelled();
                         $o->setHealth(20);
                         if($main->EggSkin($arena, $Team)){
                             $main->RemoveArenaPlayer($arena, $o->getName());
+                            $main->ArenaMessage($arena, $message);
+                            $main->ArenaMessage($arena, "§c$o has been eliminated from the game.");
+
                         }else{
                             $o->teleport(new Position($ac->getNested("$Team.X"), $ac->getNested("$Team.Y"), $ac->getNested("$Team.Z"), $main->getServer()->getLevelByName($ac->get("World"))));
                             $main->ArenaMessage($arena, $message);
@@ -462,7 +464,7 @@ class EventListener implements Listener{
         }
     }
 
-    /*public function StoreEvent(InventoryTransactionEvent $e)
+    public function StoreEvent(InventoryTransactionEvent $e)
     {
         $main = EggWars::getInstance();
         $trans = $e->getTransaction()->getTransactions();
@@ -578,9 +580,9 @@ class EventListener implements Listener{
                 }
             }
         }
-    }*/
+    }
 
-    public function StoreEvent(InventoryTransactionEvent $e){
+    /*public function StoreEvent(InventoryTransactionEvent $e){
         $envanter = $e->getTransaction()->getInventories();
         $trans = $e->getTransaction()->getTransactions();
         $main = EggWars::getInstance();
@@ -684,7 +686,7 @@ class EventListener implements Listener{
             }
         }
 
-    }
+    }*/
 
     public function BlockBreakEvent(BlockBreakEvent $e){
         $o = $e->getPlayer();

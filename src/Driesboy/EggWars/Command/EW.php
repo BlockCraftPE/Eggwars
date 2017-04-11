@@ -103,10 +103,10 @@ class EW extends Command{
                         if($ac->get("Status") === "Lobby"){
                             $ac->set("StartTime", 6);
                             $ac->save();
-                            $g->sendMessage($main->b."§bStplusng the game ...");
+                            $g->sendMessage("§bStarting the game ...");
                         }
                     }else{
-                        $g->sendMessage($main->b."§cYou are not in a game!");
+                        $g->sendMessage("§cYou are not in a game!");
                     }
                 }
             }else{
@@ -134,7 +134,7 @@ class EW extends Command{
         ]);
         $nbt->Profession = new ByteTag("Profession", $pro);
         $nbt->Health = new ShortTag("Health", 10);
-        $nbt->CustomName = new StringTag("CustomName", "§6EggWars §fShop");
+        $nbt->CustomName = new StringTag("CustomName", "§6EggWars Shop");
         $nbt->CustomNameVisible = new ByteTag("CustomNameVisible", 1);
         $World->loadChunk($x >> 4, $z >> 4);
         $koylu = Entity::createEntity("Villager", $World, $nbt);

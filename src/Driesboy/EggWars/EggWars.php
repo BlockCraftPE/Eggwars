@@ -24,7 +24,6 @@ class EggWars extends PluginBase{
     public $ky = array();
     public $sb = '§6EggWars> ';
     public $tyazi = '§8§l» §r§6Egg §fWars §l§8«';
-    public $b = '§6Egg§f Wars §8» ';
     public $m = array();
     public $mo = array();
 
@@ -56,7 +55,6 @@ class EggWars extends PluginBase{
         $cfg->save();
 
         $shop = new Config($this->getDataFolder()."shop.yml", Config::YAML);
-        // 264 => Dia 265 => İron 266 => Altin
         if ($shop->get("shop") === null) {
             $shop->set("shop", array(
                     Item::BRICKS_BLOCK,
@@ -219,6 +217,10 @@ class EggWars extends PluginBase{
     public function RemoveArenaPlayer($arena, $isim, $oa = 0){
         $ac = new Config($this->getDataFolder()."Arenas/$arena.yml", Config::YAML);
         $Players = $ac->get("Players");
+        $Status = $ac->get("Status");
+        if($Status === "Lobby"){
+          $this->ArenaMessage($arena, "§6$isim left the game ". count($this->ArenaPlayer($arena)) . "/" .$ac->get("Team") * $ac->get("PlayersPerTeam"));
+        }
         if(@in_array($isim, $Players)){
             $o = Server::getInstance()->getPlayer($isim);
             if($o instanceof Player && $oa != 1){
@@ -272,13 +274,13 @@ class EggWars extends PluginBase{
     public function Teams(){
         $Teams = array(
             "ORANGE" => "§6",
-            "GREEN" => "§a",
-            "YELLOW" => "§e",
-            "LIGHT-BLUE" => "§b",
-            "RED" => "§c",
             "PURPLE" => "§d",
+            "LIGHT-BLUE" => "§b",
+            "YELLOW" => "§e",
+            "GREEN" => "§a",
             "GRAY" => "§7",
-            "BLUE" => "§9"
+            "BLUE" => "§9",
+            "RED" => "§c"
         );
         return $Teams;
     }
@@ -286,11 +288,11 @@ class EggWars extends PluginBase{
     public function TeamSearcher(){
         $tyc = array(
             "ORANGE" => 1,
-            "PURPLE" => 2,
+            "PURPLE" => 10,
             "LIGHT-BLUE" => 3,
             "YELLOW" => 4,
-            "GREEN" => 5,
-            "GRAY" => 8,
+            "GREEN" => 13,
+            "GRAY" => 7,
             "BLUE" => 11,
             "RED" => 14
         );
@@ -402,7 +404,7 @@ class EggWars extends PluginBase{
                     $ac->setNested("$Team.Y", (int) $o->getFloorY());
                     $ac->setNested("$Team.Z", (int) $o->getFloorZ());
                     $ac->save();
-                    $o->sendMessage("§8» ".$this->Teams()[$Team]."$Team 's spawn successfully placed!");
+                    $o->sendMessage($this->Teams()[$Team]."$Team 's spawn successfully placed!");
                 }
             }else{
                 $Team = null;
@@ -583,14 +585,14 @@ class EggWars extends PluginBase{
             new IntTag("x", $o->getFloorX()),
             new IntTag("y", $o->getFloorY() - 4),
             new IntTag("z", $o->getFloorZ()),
-            new StringTag("CustomName", "§6EggWars §fShop")
+            new StringTag("CustomName", "§6EggWars Shop")
         ]);
         $nbt->Items->setTagType(NBT::TAG_Compound);
         $tile = Tile::createTile("Chest", $o->getLevel(), $nbt);
         if($tile instanceof Chest) {
             $config = new Config($this->getDataFolder() . "shop.yml", Config::YAML);
             $shop = $config->get("shop");
-            $tile->setName("§6EggWars §fShop");
+            $tile->setName("§6EggWars Shop");
             $tile->getInventory()->clearAll();
             for ($i = 0; $i < count($shop); $i+=2) {
                 $slot = $i / 2;

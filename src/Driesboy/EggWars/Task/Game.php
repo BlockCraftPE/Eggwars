@@ -34,23 +34,23 @@ class Game extends PluginTask{
                             $ac->set("StartTime", $Time);
                             $ac->save();
                             switch ($Time){
+                                case 120:
+                                  $main->ArenaMessage($arena, "§9EggWars starting in 2 minutes");
+                                break;
+                                case 90:
+                                  $main->ArenaMessage($arena, "§9EggWars starting in 1 minute and 30 seconds");
+                                break;
                                 case 60:
-                                case 45:
+                                  $main->ArenaMessage($arena, "§9EggWars starting in 1 minute");
+                                break;
                                 case 30:
                                 case 15:
-                                    $main->ArenaMessage($arena, $main->b."§eGame Begins in §6$Time §eseconds");
-                                break;
                                 case 5:
                                 case 4:
                                 case 3:
                                 case 2:
                                 case 1:
-                                    foreach($main->ArenaPlayer($arena) as $Is){
-                                        $o = $main->getServer()->getPlayer($Is);
-                                        if($o instanceof Player){
-                                            $o->sendPopup("§8§l»§r §e$Time §8§l«§r");
-                                        }
-                                    }
+                                  $main->ArenaMessage($arena, "§9EggWars starting in $Time seconds");
                                 break;
                                 default:
                                     if($Time <= 0) {
@@ -64,13 +64,20 @@ class Game extends PluginTask{
                                                 $Team = $main->PlayerTeamColor($o);
                                                 $o->teleport(new Position($ac->getNested($Team . ".X"), $ac->getNested($Team . ".Y"), $ac->getNested($Team . ".Z"), $main->getServer()->getLevelByName($ac->get("World"))));
                                                 $o->getInventory()->clearAll();
-                                                $o->sendMessage($main->b . " §aGame Started!");
+                                                $o->sendMessage("§1Go!");
                                             }
                                         }
                                         $ac->set("Status", "In-Game");
                                         $ac->save();
                                     }
                                 break;
+                            }
+                            $all = $main->ArenaPlayer($arena);
+                            foreach($all as $p){
+                                $o = $main->getServer()->getPlayer($p);
+                                if($o instanceof Player){
+                                    $o->setXpLevel($Time);
+                                }
                             }
                         }
                     }
@@ -112,7 +119,7 @@ class Game extends PluginTask{
                     if($main->OneTeamRemained($arena)){
                         $ac->set("Status", "Done");
                         $ac->save();
-                        $main->ArenaMessage($arena, $main->b."§aWon the Game");
+                        $main->ArenaMessage($arena, "§aCongratulations, you win!");
                         foreach ($main->ArenaPlayer($arena) as $Is) {
                             $o = Server::getInstance()->getPlayer($Is);
                             if(!($o instanceof Player)){
@@ -120,7 +127,7 @@ class Game extends PluginTask{
                             }
                             $Team = $main->PlayerTeamColor($o);
                         }
-                        Server::getInstance()->broadcastMessage($main->b."§b$Team §9won the game on §b$arena!");
+                        Server::getInstance()->broadcastMessage($main->b."$Team §9won the game on §b$arena!");
                     }
                 }elseif($Status === "Done"){
                     $bitis = (int) $ac->get("EndTime");
@@ -133,10 +140,8 @@ class Game extends PluginTask{
                             if($bitis <= 1){
                                 $main->RemoveArenaPlayer($arena, $o->getName());
                             }
-                            $o->sendPopup("§cArena reboot in §e$bitis §csecond...");
                         }
                         if($bitis <= 0){
-                            $o->sendPopup("§8» §eArena reboot §8«");
                             $main->ArenaRefresh($arena);
                             return;
                         }
