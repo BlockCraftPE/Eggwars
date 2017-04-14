@@ -241,7 +241,7 @@ class EventListener implements Listener{
         }
     }
 
-    public function SignCreate(SignChangeEvent $e){
+    public function CreateSign(SignChangeEvent $e){
         $o = $e->getPlayer();
         $main = EggWars::getInstance();
         if($o->isOp()){
@@ -463,125 +463,7 @@ class EventListener implements Listener{
         }
     }
 
-    public function StoreEvent(InventoryTransactionEvent $e)
-    {
-        $main = EggWars::getInstance();
-        $trans = $e->getTransaction()->getTransactions();
-        $envanter = $e->getTransaction()->getInventories();
-
-        $o = null;
-        $sandikB = null;
-        $transfer = null;
-
-        foreach ($trans as $t) {
-            foreach($envanter as $env){
-                $Held = $env->getHolder();
-                if ($Held instanceof Chest) {
-                    $sandikB = $Held->getBlock();
-                    $transfer = $t;
-                }
-                if ($Held instanceof Player) {
-                    $o = $Held;
-                }
-            }
-        }
-
-        if ($o != null && $sandikB != null && $transfer != null) {
-            $main->getLogger()->info("Sa");
-            if($o instanceof Player) {
-                $shopc = new Config($main->getDataFolder() . "shop.yml", Config::YAML);
-                $shop = $shopc->get("shop");
-                $sandik = $o->getLevel()->getTile($sandikB);
-                if ($sandik instanceof Chest) {
-                    $item = $transfer->getTargetItem();
-                    $main->getLogger()->info("§a".$item->getId());
-                    $senv = $sandik->getInventory();
-
-                    if(empty($main->m[$o->getName()])) {
-                        $mis = 0;
-                        $main->getLogger()->info("§c".$o->getName());
-                        for ($i = 0; $i < count($shop); $i += 2) {
-                            if ($item->getId() === $shop[$i]) {
-                                $mis++;
-                            }
-                        }
-                        if($mis === count($shop)){
-                            $main->m[$o->getName()] = 1;
-                        }
-                    }
-                    if(empty($main->m[$o->getName()])) {
-                        $main->getLogger()->info("§b".$o->getName());
-                        $is = $senv->getItem(1)->getId();
-                        if ($is === 264 || $is === 265 || $is === 266) {
-                            $main->m[$o->getName()] = 1;
-                        }
-                    }
-
-                    if(!empty($main->m[$o->getName()])){
-                        $main->getLogger()->info("Deneme 1 => ".$o->getName());
-                        if($item->getId() === Item::WOOL && $item->getDamage() === 14){
-                            $e->setCancelled(true);
-                            $shopc = new Config($main->getDataFolder() . "shop.yml", Config::YAML);
-                            $shop = $shopc->get("shop");
-                            $sandik->getInventory()->clearAll();
-                            for ($i=0; $i < count($shop); $i+=2){
-                                $slot = $i / 2;
-                                $sandik->getInventory()->setItem($slot, Item::get($shop[$i], 0, 1));
-                            }
-                        }
-                        $transferSlot = 0;
-                        for ($i=0; $i<$senv->getSize(); $i++) {
-                            if ($senv->getItem($i)->getId() === $item->getId()) {
-                                $transferSlot = $i;
-                                break;
-                            }
-                        }
-                        $main->getLogger()->info("Deneme 2 => ".$transferSlot);
-                        $is = $senv->getItem(1)->getId();
-                        if ($transferSlot % 2 != 0 && ($is === 264 || $is === 265 || $is === 266)) {
-                            $e->setCancelled(true);
-                        }
-                        if ($item->getId() === 264 || $item->getId() === 265 || $item->getId() === 266) {
-                            $e->setCancelled(true);
-                        }
-                        if ($transferSlot % 2 === 0 && ($is === 264 || $is === 265 || $is === 266)) {
-                            $ucret = $senv->getItem($transferSlot + 1)->getCount();
-
-                            $paran = $main->ItemId($o, $senv->getItem($transferSlot + 1)->getId());
-                            $main->getLogger()->info($paran." => ".$ucret);
-                            if ($paran >= $ucret) {
-                                $o->getInventory()->removeItem(Item::get($senv->getItem($transferSlot + 1)->getId(), 0, $ucret));
-                                $o->getInventory()->addItem(Item::get($senv->getItem($transferSlot)->getId(), $senv->getItem($transferSlot)->getDamage(), $senv->getItem($transferSlot)->getCount()));
-                            }
-                            $e->setCancelled(true);
-                        }
-                        if($is != 264 || $is != 265 || $is != 266){
-                            $e->setCancelled(true);
-                            $shopc = new Config($main->getDataFolder() . "shop.yml", Config::YAML);
-                            $shop = $shopc->get("shop");
-                            for ($i = 0; $i < count($shop); $i += 2) {
-                                if ($item->getId() === $shop[$i]) {
-                                    $sandik->getInventory()->clearAll();
-                                    $suball = $shop[$i + 1];
-                                    $slot = 0;
-                                    for ($e = 0; $e < count($suball); $e++) {
-                                        $sandik->getInventory()->setItem($slot, Item::get($suball[$e][0], 0, $suball[$e][1]));
-                                        $slot++;
-                                        $sandik->getInventory()->setItem($slot, Item::get($suball[$e][2], 0, $suball[$e][3]));
-                                        $slot++;
-                                    }
-                                    break;
-                                }
-                            }
-                            $sandik->getInventory()->setItem($sandik->getInventory()->getSize() - 1, Item::get(Item::WOOL, 14, 1));
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /*public function StoreEvent(InventoryTransactionEvent $e){
+    public function StoreEvent(InventoryTransactionEvent $e){
         $envanter = $e->getTransaction()->getInventories();
         $trans = $e->getTransaction()->getTransactions();
         $main = EggWars::getInstance();
@@ -685,7 +567,7 @@ class EventListener implements Listener{
             }
         }
 
-    }*/
+    }
 
     public function BlockBreakEvent(BlockBreakEvent $e){
         $o = $e->getPlayer();
