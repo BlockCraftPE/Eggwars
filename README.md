@@ -1,6 +1,8 @@
 # Plugin coding: Enes5519 & Driesboy
 Hi, the installation of the plugin I'm telling you now.
 
+### API3 -> https://github.com/NL-4-DEVS/Eggwars/tree/API3
+
 ### Note: You do not change the colors of the text on the sign. (Professionals can change)
 
 ## EGG WARS SHOP
