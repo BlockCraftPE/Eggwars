@@ -37,7 +37,7 @@ class SignManager extends PluginTask{
                             $d = "§c§lFull";
                             $re = 14;
                         }else{
-                            $d = "§a§lRunning";
+                            $d = "§a§lTap to join";
                             $re = 5;
                         }
                     }elseif ($Status === "In-Game"){
