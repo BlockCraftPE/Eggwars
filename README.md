@@ -1,7 +1,7 @@
 # Plugin coding: Enes5519 & Driesboy
 # Only works on PMMP
 
-# PMMP SaveConfig() is broken download the CONFIG FILES [![HERE](https://www.dropbox.com/s/i2vxzhorw81r4hr/Archief.zip?dl=0)] BEFORE USING THIS
+# PMMP SaveConfig() is broken download the CONFIG FILES [HERE](https://www.dropbox.com/s/i2vxzhorw81r4hr/Archief.zip?dl=0) BEFORE USING THIS
 
 Hi, the installation of the plugin I'm telling you now.
 
