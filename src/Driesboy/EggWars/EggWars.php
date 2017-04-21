@@ -594,7 +594,7 @@ class EggWars extends PluginBase{
             $shop = $config->get("shop");
             $tile->setName("§6EggWars Shop");
             $tile->getInventory()->clearAll();
-            for ($i = 1; $i < count($shop); $i+=2) {
+            for ($i = 0; $i < count($shop); $i+=2) {
                 $slot = $i / 2;
                 $tile->getInventory()->setItem($slot, Item::get($shop[$i], 0, 1));
             }
