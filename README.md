@@ -1,4 +1,7 @@
 # Plugin coding: Enes5519 & Driesboy
+# Only works on PMMP
+reason: Tesseract has a chest bug
+
 Hi, the installation of the plugin I'm telling you now.
 
 ### API3 -> https://github.com/NL-4-DEVS/Eggwars/tree/API3
