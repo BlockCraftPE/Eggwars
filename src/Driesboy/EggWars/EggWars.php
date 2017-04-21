@@ -55,7 +55,7 @@ class EggWars extends PluginBase{
         $cfg->save();
 
         $shop = new Config($this->getDataFolder()."shop.yml", Config::YAML);
-        if ($shop->get("shop") === null) {
+        if ($shop->get("shop") == null) {
             $shop->set("shop", array(
                     Item::BRICKS_BLOCK,
                     array(
