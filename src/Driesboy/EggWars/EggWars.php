@@ -32,7 +32,7 @@ class EggWars extends PluginBase{
         @mkdir($this->getDataFolder()."Arenas/");
         @mkdir($this->getDataFolder()."Back-Up/");
         self::$ins = $this;
-        $this->saveResource("config.yml")
+        $this->saveResource("config.yml");
         $this->saveResource("shop.yml");
         $this->AnotherPrepare();
         $this->PrepareArenas();
