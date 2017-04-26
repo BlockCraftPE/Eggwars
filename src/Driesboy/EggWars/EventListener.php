@@ -7,7 +7,7 @@ use pocketmine\event\entity\{
     EntityDamageByEntityEvent, EntityDamageEvent
 };
 use pocketmine\event\player\{
-    PlayerDeathEvent, PlayerInteractEvent, PlayerMoveEvent, PlayerChatEvent
+    PlayerDeathEvent, PlayerInteractEvent, PlayerMoveEvent, PlayerChatEvent, PlayerQuitEvent
 };
 use pocketmine\event\block\{
     SignChangeEvent, BlockBreakEvent, BlockPlaceEvent
@@ -31,6 +31,18 @@ class EventListener implements Listener{
 
     public $sd = array();
     public function __construct(){
+    }           
+	
+	public function OnQuit(PlayerQuitEvent $e){
+		$main = EggWars::getInstance();
+		$p = $e->getPlayer(); 
+        if($main->IsInArena($p->getName())){
+            	$arena = $main->IsInArena($p->getName());
+            	$main->RemoveArenaPlayer($arena, $p->getName());
+            	$p->teleport(Server::getInstance()->getDefaultLevel()->getSafeSpawn());
+				$message = $p->getNameTag()." §eleft the game!"; 
+        		$main->ArenaMessage($arena, $message);
+		}
     }
 
     public function Chat(PlayerChatEvent $e){
