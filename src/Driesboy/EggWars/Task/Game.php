@@ -127,7 +127,7 @@ class Game extends PluginTask{
                             }
                             $Team = $main->PlayerTeamColor($o);
                         }
-                        Server::getInstance()->broadcastMessage($main->b."$Team §9won the game on §b$arena!");
+                        Server::getInstance()->broadcastMessage("$Team §9won the game on §b$arena!");
                     }
                 }elseif($Status === "Done"){
                     $bitis = (int) $ac->get("EndTime");
