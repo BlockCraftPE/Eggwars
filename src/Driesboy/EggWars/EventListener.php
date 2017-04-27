@@ -30,26 +30,26 @@ use pocketmine\inventory\{
 class EventListener implements Listener{
 
     public $sd = array();
+
     public function __construct(){
-    }           
-	
-	public function OnQuit(PlayerQuitEvent $e){
-		$main = EggWars::getInstance();
-		$p = $e->getPlayer(); 
+    }
+
+    public function OnQuit(PlayerQuitEvent $e){
+		    $main = EggWars::getInstance();
+		    $p = $e->getPlayer();
         if($main->IsInArena($p->getName())){
             	$arena = $main->IsInArena($p->getName());
             	$main->RemoveArenaPlayer($arena, $p->getName());
             	$p->teleport(Server::getInstance()->getDefaultLevel()->getSafeSpawn());
-				$message = $p->getNameTag()." §eleft the game!"; 
-        		$main->ArenaMessage($arena, $message);
-		}
+				      $message = $p->getNameTag()." §eleft the game!";
+        		  $main->ArenaMessage($arena, $message);
+		    }
     }
 
     public function Chat(PlayerChatEvent $e){
         $o = $e->getPlayer();
         $m = $e->getMessage();
         $main = EggWars::getInstance();
-
         if($main->IsInArena($o->getName())){
             $color = "";
             $is = substr($m, 0, 1);
@@ -454,7 +454,7 @@ class EventListener implements Listener{
                     if ($yazi[0] === $main->tyazi) {
                         foreach ($o->getLevel()->getNearbyEntities(new AxisAlignedBB($b->x - 0.5, $b->y - 1, $b->z - 0.5, $b->x+0.5, $b->y + 1, $b->z+0.5)) as $Player) {
                             if ($Player instanceof Player) {
-                                $Player->knockBack($o, 0, -1, -1, 0.2);
+                                $Player->knockBack($Player, 0, ($Player->x - ($block->x + 0.5)), ($Player->z - ($block->z + 0.5)), (2 / 0xa));
                             }
                         }
                     }
