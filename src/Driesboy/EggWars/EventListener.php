@@ -454,7 +454,7 @@ class EventListener implements Listener{
                     if ($yazi[0] === $main->tyazi) {
                         foreach ($o->getLevel()->getNearbyEntities(new AxisAlignedBB($b->x - 0.5, $b->y - 1, $b->z - 0.5, $b->x+0.5, $b->y + 1, $b->z+0.5)) as $Player) {
                             if ($Player instanceof Player) {
-                                $Player->knockBack($Player, 0, ($Player->x - ($block->x + 0.5)), ($Player->z - ($block->z + 0.5)), (2 / 0xa));
+                                $Player->knockBack($Player, 0, ($b->x - ($b->x + 0.5)), ($Player->z - ($b->z + 0.5)), (2 / 0xa));
                             }
                         }
                     }
