@@ -62,17 +62,15 @@ class EggWars extends PluginBase{
         $ac = new Config($this->getDataFolder()."Arenas/$arena.yml", Config::YAML);
         $Players = $ac->get("Players");
         $o = array();
-        if (!$Players === null){
-            foreach ($Players as $Is) {
-                $go = Server::getInstance()->getPlayer($Is);
-                if($go instanceof Player){
-                     $o[] = $Is;
-                }else{
-                    $this->RemoveArenaPlayer($arena, $Is, 1);
-                }
+        foreach ($Players as $Is) {
+            $go = Server::getInstance()->getPlayer($Is);
+            if($go instanceof Player){
+                 $o[] = $Is;
+            }else{
+                $this->RemoveArenaPlayer($arena, $Is, 1);
             }
-            return $o;
-        }        
+        }
+        return $o;
     }
 
     public function RemoveArenaPlayer($arena, $isim, $oa = 0){
