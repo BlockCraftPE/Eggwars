@@ -442,7 +442,7 @@ class EventListener implements Listener{
         }
     }
 
-    public function OnMove(PlayerMoveEvent $e){
+    /*public function hareket(PlayerMoveEvent $e){
         $o = $e->getPlayer();
         $main = EggWars::getInstance();
         if($o->getLevel() === $o->getServer()->getDefaultLevel()) {
@@ -461,7 +461,7 @@ class EventListener implements Listener{
                 }
             }
         }
-    }
+    }*/
 
     public function envKapat(InventoryCloseEvent $e){
         $o = $e->getPlayer();
