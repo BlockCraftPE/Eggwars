@@ -16,7 +16,7 @@ use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\{CompoundTag, IntTag, ListTag, StringTag};
 use pocketmine\tile\{Tile, Chest};
 use pocketmine\entity\Entity;
-use pocketmine\network\protocol\AddEntityPacket;
+use pocketmine\network\mcpe\protocol\AddEntityPacket;
 
 class EggWars extends PluginBase{
 
