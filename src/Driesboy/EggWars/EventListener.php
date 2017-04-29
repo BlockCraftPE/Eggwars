@@ -21,7 +21,6 @@ use pocketmine\inventory\PlayerInventory;
 use pocketmine\item\Item;
 use pocketmine\tile\Sign;
 use pocketmine\tile\Chest;
-use pocketmine\item\Item;
 use pocketmine\event\Listener;
 use pocketmine\level\Level;
 use pocketmine\level\Position;

@@ -1,13 +1,11 @@
 # Plugin coding: Enes5519 & Driesboy
-# Only works on PMMP
+# Only works on PMMP and BlueLight
+
+### API3 -> https://github.com/NL-4-DEVS/Eggwars/tree/API3
 
 [![Poggit-CI](https://poggit.pmmp.io/ci.badge/NL-4-DEVS/Eggwars/Eggwars)](https://poggit.pmmp.io/ci/NL-4-DEVS/Eggwars/Eggwars)
 
-# PMMP SaveConfig() is broken download the CONFIG FILES [HERE](https://www.dropbox.com/s/i2vxzhorw81r4hr/Archief.zip?dl=0) BEFORE USING THIS
-
 Hi, the installation of the plugin I'm telling you now.
-
-### API3 -> https://github.com/NL-4-DEVS/Eggwars/tree/API3
 
 ### Note: You do not change the colors of the text on the sign. (Professionals can change)
 
