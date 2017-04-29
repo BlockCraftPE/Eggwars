@@ -28,6 +28,9 @@ use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\math\Vector3;
 use pocketmine\utils\Config;
+use pocketmine\network\protocol\ContainerSetContentPacket;
+use pocketmine\network\protocol\SetPlayerGameTypePacket;
+use pocketmine\network\protocol\AdventureSettingsPacket;
 
 
 class EventListener implements Listener{
@@ -48,48 +51,74 @@ class EventListener implements Listener{
     }
   }
 
-  public function Chat(PlayerChatEvent $e){
-    $o = $e->getPlayer();
-    $m = $e->getMessage();
-    $main = EggWars::getInstance();
-
-    if($main->IsInArena($o->getName())){
-      $color = "";
-      $is = substr($m, 0, 1);
-      $Team = $main->PlayerTeamColor($o);
-      $arena = $main->IsInArena($o->getName());
-      $ac = new Config($main->getDataFolder()."Arenas/$arena.yml", Config::YAML);
-      if($ac->get("Status") === "Lobby"){
-        $Players = $main->ArenaPlayer($arena);
-        foreach($Players as $Is){
-          $to = $main->getServer()->getPlayer($Is);
-          if($to instanceof Player){
-            $to->sendMessage("§f".$o->getName()." §8» §7".$m);
-          }
-        }
-      }
-      if(!empty($main->Teams()[$Team])){
-        $color = $main->Teams()[$Team];
-      }
-      if($is === "!"){
-        $msil = substr($m, 1);
-        $main->ArenaMessage($arena, "§8[§c!§8] ".$color.$o->getName()." §8» §7$msil");
-      }else{
-        $Players = $main->ArenaPlayer($arena);
-        foreach($Players as $Is){
-          $to = $main->getServer()->getPlayer($Is);
-          if($to instanceof Player){
-            $toTeam = $main->PlayerTeamColor($to);
-            if($Team === $toTeam){
-              $message = "§8[".$color."team§8] ".$color.$o->getName()." §8» §7$m";
-              $to->sendMessage($message);
-            }
-          }
-        }
-      }
-      return;
+  public function OnJoin(PlayerJoinEvent $e){
+    if ($e->getPlayer()->hasPermission("rank.diamond")){
+      $e->getPlayer()->setGamemode("1");
+      $pk = new ContainerSetContentPacket();
+      $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+      $e->getPlayer()->dataPacket($pk);
     }
   }
+
+    /**
+     * Priority is the MONITOR so it can pass PureChat plugin priority.
+     *
+     * @param PlayerChatEvent $e
+     * @priority MONITOR
+     */
+     public function Chat(PlayerChatEvent $e){
+       $o = $e->getPlayer();
+       $m = $e->getMessage();
+       $main = EggWars::getInstance();
+       if($main->IsInArena($o->getName())){
+         $color = "";
+         $is = substr($m, 0, 1);
+         $Team = $main->PlayerTeamColor($o);
+         $arena = $main->IsInArena($o->getName());
+         $ac = new Config($main->getDataFolder()."Arenas/$arena.yml", Config::YAML);
+         $Players = $main->ArenaPlayer($arena);
+         if($ac->get("Status") === "Lobby"){
+           foreach($Players as $p){
+             $to = $main->getServer()->getPlayer($p);
+             if($to instanceof Player){
+               $chatFormat = $main->getServer()->getPluginManager()->getPlugin("PureChat")->getChatFormat($o, $m);
+               $to->sendMessage($chatFormat);
+               $e->setCancelled();
+             }
+           }
+         }
+         if(!empty($main->Teams()[$Team])){
+           $color = $main->Teams()[$Team];
+         }
+         if ($ac->get("Status") != "Lobby"){
+           if($is === "!"){
+             foreach($Players as $p){
+               $to = $main->getServer()->getPlayer($p);
+               if($to instanceof Player){
+                 $msil = substr($m, 1);
+                 $chatFormat = $main->getServer()->getPluginManager()->getPlugin("PureChat")->getChatFormat($o, $msil);
+                 $to->sendMessage($chatFormat);
+                 $e->setCancelled();
+               }
+             }
+           }else{
+             foreach($Players as $p){
+               $to = $main->getServer()->getPlayer($p);
+               if($to instanceof Player){
+                 $toTeam = $main->PlayerTeamColor($to);
+                 if($Team === $toTeam){
+                   $Format = $main->getServer()->getPluginManager()->getPlugin("PureChat")->getChatFormat($o, $m);
+                   $message = "§8[".$color."team§8] ". $Format;
+                   $to->sendMessage($message);
+                   $e->setCancelled();
+                 }
+               }
+             }
+           }
+         }
+         return;
+       }
+     }
 
   public function OnInteract(PlayerInteractEvent $e){
     $o = $e->getPlayer();
@@ -365,6 +394,9 @@ class EventListener implements Listener{
   public function Damage(EntityDamageEvent $e){
     $o = $e->getEntity();
     $main = EggWars::getInstance();
+    if($o->getLevel()->getName() === "ELobby"){
+      $e->setCancelled();
+    }
     if($e instanceof EntityDamageByEntityEvent){
       $d = $e->getDamager();
       if($o instanceof Villager && $d instanceof Player){
@@ -441,6 +473,21 @@ class EventListener implements Listener{
             $o->getInventory()->clearAll();
           }
         }
+      }
+    }
+  }
+
+  public function onMove(PlayerMoveEvent $e){
+    $o = $e->getPlayer();
+    $main = EggWars::getInstance();
+    if ($o->getLevel()->getFolderName() === "ELobby"){
+      if($e->getTo()->getFloorY() < 3){
+        $e->getPlayer()->teleport(new Position("1000", "30", "-10"));
+      }
+    }
+    if ($o->getLevel()->getFolderName() === "EWaiting"){
+      if($e->getTo()->getFloorY() < 3){
+        $e->getPlayer()->teleport(new Position("-3", "55", "0"));
       }
     }
   }
@@ -566,6 +613,11 @@ class EventListener implements Listener{
   public function BlockBreakEvent(BlockBreakEvent $e){
     $o = $e->getPlayer();
     $b = $e->getBlock();
+    if($o->getLevel()->getName() === "ELobby"){
+      if (!$o->isOP(){
+        $e->setCancelled();
+      }
+    }
     $main = EggWars::getInstance();
     if($main->IsInArena($o->getName())){
       $cfg = new Config($main->getDataFolder()."config.yml", Config::YAML);
@@ -594,6 +646,11 @@ class EventListener implements Listener{
     $o = $e->getPlayer();
     $b = $e->getBlock();
     $main = EggWars::getInstance();
+    if($o->getLevel()->getName() === "ELobby"){
+      if (!$o->isOP(){
+        $e->setCancelled();
+      }
+    }
     $cfg = new Config($main->getDataFolder()."config.yml", Config::YAML);
     if($main->IsInArena($o->getName())){
       $ad = $main->ArenaStatus($main->IsInArena($o->getName()));

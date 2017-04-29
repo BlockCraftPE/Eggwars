@@ -23,6 +23,9 @@ use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
 use pocketmine\entity\Entity;
 use pocketmine\network\protocol\AddEntityPacket;
+use pocketmine\network\protocol\ContainerSetContentPacket;
+use pocketmine\network\protocol\SetPlayerGameTypePacket;
+use pocketmine\network\protocol\AdventureSettingsPacket;
 
 class EggWars extends PluginBase{
 
@@ -89,11 +92,19 @@ class EggWars extends PluginBase{
     if(@in_array($isim, $Players)){
       $o = Server::getInstance()->getPlayer($isim);
       if($o instanceof Player && $oa != 1){
-        $o->setNameTag($o->getName());
+        $this->PureChat = $this->getServer()->getPluginManager()->getPlugin("PureChat");
+        $nameTag = $this->PureChat->getNametag($o);
+        $o->setNameTag($nameTag);
         $o->getInventory()->clearAll();
         $o->setHealth(20);
         $o->setFood(20);
         $o->teleport(Server::getInstance()->getDefaultLevel()->getSafeSpawn());
+        if ($o->hasPermission("rank.diamond")){
+          $o->setGamemode("1");
+          $pk = new ContainerSetContentPacket();
+          $pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
+          $o->dataPacket($pk);
+        }
       }
       $key = array_search($isim, $Players);
       unset($Players[$key]);
