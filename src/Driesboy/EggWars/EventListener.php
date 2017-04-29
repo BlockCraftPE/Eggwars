@@ -462,9 +462,10 @@ class EventListener implements Listener{
             $e->setCancelled();
             $o->setHealth(20);
             if($main->EggSkin($arena, $Team)){
+              $pname = $o->getName();
               $main->RemoveArenaPlayer($arena, $o->getName());
               $main->ArenaMessage($arena, $message);
-              $main->ArenaMessage($arena, "§c$o has been eliminated from the game.");
+              $main->ArenaMessage($arena, "§c$pname has been eliminated from the game.");
 
             }else{
               $o->teleport(new Position($ac->getNested("$Team.X"), $ac->getNested("$Team.Y"), $ac->getNested("$Team.Z"), $main->getServer()->getLevelByName($ac->get("World"))));
