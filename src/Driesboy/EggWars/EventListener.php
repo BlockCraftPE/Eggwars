@@ -615,8 +615,8 @@ class EventListener implements Listener{
     $o = $e->getPlayer();
     $b = $e->getBlock();
     if($o->getLevel()->getName() === "ELobby"){
-      if (!$o->isOP(){
-        $e->setCancelled()
+      if (!$o->isOP()){
+        $e->setCancelled();
       }
     }
     $main = EggWars::getInstance();
