@@ -6,6 +6,7 @@ use Driesboy\EggWars\Command\Hub;
 use Driesboy\EggWars\Command\EW;
 use Driesboy\EggWars\Task\Game;
 use Driesboy\EggWars\Task\SignManager;
+use Driesboy\EggWars\Task\StackTask;
 use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
@@ -52,6 +53,7 @@ class EggWars extends PluginBase{
     Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
     Server::getInstance()->getScheduler()->scheduleRepeatingTask(new SignManager($this), 20);
     Server::getInstance()->getScheduler()->scheduleRepeatingTask(new Game($this), 20);
+    Server::getInstance()->getScheduler()->scheduleDelayedRepeatingTask(new StackTask($this), 15, 15);
     Server::getInstance()->getCommandMap()->register("ew", new EW());
     Server::getInstance()->getCommandMap()->register("hub", new Hub());
   }

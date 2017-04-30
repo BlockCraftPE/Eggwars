@@ -6,8 +6,6 @@
 [![Poggit-CI](https://poggit.pmmp.io/ci.badge/NL-4-DEVS/Eggwars/Eggwars)](https://poggit.pmmp.io/ci/NL-4-DEVS/Eggwars/Eggwars)
 
 Hi, the installation of the plugin I'm telling you now.
- 
-#If you have drop lagg use this plugin https://github.com/thebigsmileXD/ItemStacks
 
 ### Note: You do not change the colors of the text on the sign. (Professionals can change)
 
