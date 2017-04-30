@@ -1,13 +1,13 @@
 <?php
 
-namespace Driesboy\Eggwars\Task;
+namespace Driesboy\EggWars\Task;
 
 use pocketmine\entity\Item;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\Server;
 use Driesboy\Eggwars\EggWars;
 
-class StackTask extends PluginTask {
+class StackTask extends PluginTask{
 
 //Thx to @XenialDan
 
