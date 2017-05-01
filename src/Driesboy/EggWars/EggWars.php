@@ -53,7 +53,10 @@ class EggWars extends PluginBase{
     Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
     Server::getInstance()->getScheduler()->scheduleRepeatingTask(new SignManager($this), 20);
     Server::getInstance()->getScheduler()->scheduleRepeatingTask(new Game($this), 20);
-    Server::getInstance()->getScheduler()->scheduleDelayedRepeatingTask(new StackTask($this), 15, 15);
+    $cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+    if ($cfg->get("Reduce-Lagg") === true){
+      Server::getInstance()->getScheduler()->scheduleDelayedRepeatingTask(new StackTask($this), 15, 15);
+    }  
     Server::getInstance()->getCommandMap()->register("ew", new EW());
     Server::getInstance()->getCommandMap()->register("hub", new Hub());
   }
