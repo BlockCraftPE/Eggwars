@@ -14,7 +14,7 @@ class StackTask extends PluginTask{
 	/** @var Loader $plugin */
 	private $plugin;
 
-	public function __construct(Loader $owner) {
+	public function __construct(EggWars $owner) {
 		parent::__construct($owner);
 		$this->plugin = $owner;
 	}
