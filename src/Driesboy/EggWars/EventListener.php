@@ -204,7 +204,7 @@ class EventListener implements Listener{
             case "§6Gold":
             if($main->ItemId($o, Item::GOLD_INGOT) >= 10){
               $o->getInventory()->removeItem(Item::get(Item::GOLD_INGOT,0,10));
-              $sign->setText($y[0], "§eLevel 2", "§b6 seconds", $y[3]);
+              $sign->setText($y[0], "§eLevel 2", "§b3 seconds", $y[3]);
               $o->sendMessage("§8» §aUpgraded to level 2!");
             }else{
               $o->sendMessage("§8» §610 Gold needed to upgrade!");
@@ -213,7 +213,7 @@ class EventListener implements Listener{
             case "§bDiamond":
             if($main->ItemId($o, Item::DIAMOND) >= 10){
               $o->getInventory()->removeItem(Item::get(Item::DIAMOND,0,10));
-              $sign->setText($y[0], "§eLevel 2", "§b8 seconds", $y[3]);
+              $sign->setText($y[0], "§eLevel 2", "§b4 seconds", $y[3]);
               $o->sendMessage("§8» §aUpgraded to level 2!");
             }else{
               $o->sendMessage("§8» §b10 Diamonds needed to upgrade!");
@@ -235,7 +235,7 @@ class EventListener implements Listener{
             case "§6Gold":
             if($main->ItemId($o, Item::DIAMOND) >= 10){
               $o->getInventory()->removeItem(Item::get(Item::DIAMOND,0,10));
-              $sign->setText($y[0], "§eLevel 3", "§b4 seconds", "§c§lMAXIMUM");
+              $sign->setText($y[0], "§eLevel 3", "§b2 seconds", "§c§lMAXIMUM");
               $o->sendMessage("§8» §aMaximum Level raised!");
             }else{
               $o->sendMessage("§8» §b10 Diamonds needed to upgrade!");
@@ -244,7 +244,7 @@ class EventListener implements Listener{
             case "§bDiamond":
             if($main->ItemId($o, Item::DIAMOND) >= 20){
               $o->getInventory()->removeItem(Item::get(Item::DIAMOND,0,20));
-              $sign->setText($y[0], "§eLevel 3", "§b6 seconds", "§c§lMAXIMUM");
+              $sign->setText($y[0], "§eLevel 3", "§b2 seconds", "§c§lMAXIMUM");
               $o->sendMessage("§8» §aMaximum Level raised!");
             }else{
               $o->sendMessage("§8» §b20 Diamonds needed to upgrade!");
