@@ -23,10 +23,10 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
 use pocketmine\entity\Entity;
-use pocketmine\network\protocol\AddEntityPacket;
-use pocketmine\network\protocol\ContainerSetContentPacket;
-use pocketmine\network\protocol\SetPlayerGameTypePacket;
-use pocketmine\network\protocol\AdventureSettingsPacket;
+use pocketmine\network\mcpe\protocol\AddEntityPacket;
+use pocketmine\network\mcpe\protocol\ContainerSetContentPacket;
+use pocketmine\network\mcpe\protocol\SetPlayerGameTypePacket;
+use pocketmine\network\mcpe\protocol\AdventureSettingsPacket;
 
 class EggWars extends PluginBase{
 
@@ -59,7 +59,7 @@ class EggWars extends PluginBase{
     $cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML);
     if ($cfg->get("Reduce-Lagg") === true){
       Server::getInstance()->getScheduler()->scheduleDelayedRepeatingTask(new StackTask($this), 15, 15);
-    }  
+    }
     Server::getInstance()->getCommandMap()->register("ew", new EW());
     Server::getInstance()->getCommandMap()->register("hub", new Hub());
   }
